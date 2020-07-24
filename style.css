@@ -1,0 +1,100 @@
+:root{
+    --one: #3E807F;
+    --two: #8CBEB4;
+    --three: #EAE8B6;
+    --four: #F2B563;
+    --five: #E17364;
+}
+body{
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    background-color: linear-gradient(90deg, rgba(234,232,182,1) 0%, rgba(242,181,99,1) 52%, rgba(62,128,127,1) 100%);
+    font-family: astoria-sans, sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    font-size: 1.5rem;
+
+}
+
+
+
+button{
+    font-family: inherit;
+}
+
+#page-container{
+    display: grid;
+    margin: auto;
+    margin-top: 10px;
+    height: 98vh;
+    width: 99vw;
+    grid-template-columns: 35fr 65fr;
+}
+
+
+#title{
+    background-color: var(--two);
+    font-size: 2rem;
+    display: flex;
+}
+#titleBox{
+    font-size: 28px;
+    margin: auto;
+
+}
+
+
+#controls{
+    background-color: var(--three);
+    display: grid;
+    grid-template-rows: 5fr 6fr 4fr 2fr;
+    padding: 25px 15px;
+}
+
+
+#controlsContainer {
+    display: grid;
+    grid-template-rows: 1fr 12fr;
+
+}
+
+#canvas{
+    background-color: var(--one);
+}
+
+
+
+#dimensionsControl{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#dimensionsControl >p{
+    width: 100%;
+
+    padding-left: 2%;
+}
+
+#dimensions{
+
+    width:100%;
+    padding-left: 1px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#dimensions > span{
+    margin:0 0.5rem;
+
+}
+.inputBox{
+    width: 45%;
+}
+
+#drawButton{
+
+    margin: 20px;
+}
