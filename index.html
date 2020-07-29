@@ -18,39 +18,146 @@
                 </div>
                 <div id="controls">
                     <div id="dimensionsControl">
-                        <p><strong>Dimensions</strong></p>
+                        <p  class="helperText"><strong>Dimensions</strong></p>
                         <div id="dimensions">
                             <input type="text" class="inputBox" id="inputHeight">
                             <span> x </span>
                             <input type="text" class="inputBox" id="inputWidth">
                         </div>
-                        <button id="drawButton">Create Canvas</button>
+                        <button id="createCanvas">Create Canvas</button>
                     </div>
                     <div id="colorControl">
-                        color
+                        <p class="helperText"><strong>Color</strong></p>
                         <div id="colorPicker">
-                            colors
+                            <div class="colorRow">
+                                <div class="color" id=""></div>
+                                <div class="color" id=""></div>
+                                <div class="color" id=""></div>
+                                <div class="color" id=""></div>
+                                <div class="color" id=""></div>
+                                <div class="color" id=""></div>
+                                <div class="color" id=""></div>
+                                <div class="color" id=""></div>
+                            </div>
+                            <div class="colorRow">
+                                <div class="color" id=""></div>
+                                <div class="color" id=""></div>
+                                <div class="color" id=""></div>
+                                <div class="color" id=""></div>
+                                <div class="color" id=""></div>
+                                <div class="color" id=""></div>
+                                <div class="color" id=""></div>
+                                <div class="color" id=""></div>
+                            </div>
                         </div>
                     </div>
                     <div id="drawEraseControl">
-                        <button>draw</button>
-                        <button>erase</button>
+                        <button class="drawEraseToggle" id="eraseToggleButton">Draw</button>
+                        <button class="drawEraseToggle" id="drawToggleButton">Erase</button>
                     </div>
                     <div id="clearControl">
-                        <button>clear</button>
+                        <button id="clearButton">Clear</button>
                     </div>
 
                 </div>
             </div>
 
+        
+            <div id="canvas">
 
-
-
-            <div id="canvas"></div>
+            </div>
         </div>
         <script>
 
-            console.log("yonko");
+            let currentColor = "#263B2A";
+            let drawingToggle = true;
+            let eraseToggle = false;
+            let currentPixel = null;
+            
+            //update with function
+
+            let canvas = document.querySelector("#canvas");
+            var mousedownID = -1;  //Global ID of mouse down interval
+            function mousedown(event) {
+            if(mousedownID==-1)  //Prevent multimple loops!
+                mousedownID = setInterval(whilemousedown, 10 /*execute every 100ms*/);
+
+
+            }
+            function mouseup(event) {
+            if(mousedownID!=-1) {  //Only stop if exists
+                clearInterval(mousedownID);
+                mousedownID=-1;
+            }
+
+            }
+            function whilemousedown() {
+                action();
+            }
+            //Assign events
+            document.addEventListener("mousedown", mousedown);
+            document.addEventListener("mouseup", mouseup);
+            //Also clear the interval when user leaves the window with mouse
+
+            //end of function to detect if mouse is clicked
+        
+
+            function createBoard(height, width) {
+                const parentDiv = document.querySelector('#canvas');
+                const heightPercent = 100/height + "%";
+                const widthPercent = 100/width + "%";
+
+
+                //create height rows
+                for(i = 0; i < height; i++){
+                    let currentRow = document.createElement("div");
+                    currentRow.classList.add("row");
+                    currentRow.style.height = heightPercent;
+
+                    for(j = 0; j< width; j++){
+                        let pixel = document.createElement("div");
+                        pixel.classList.add("pixel");
+                        pixel.style.width = widthPercent;
+                        currentRow.appendChild(pixel);
+                        pixel.addEventListener("mouseover", setCurrentPixel);
+                    }
+                    parentDiv.appendChild(currentRow);
+
+                }
+
+            }
+
+
+
+            function clearBoard(){
+
+            }
+
+            function setCurrentPixel(e){
+                currentPixel = e.target;
+
+            }
+
+            function action(){
+                if(drawingToggle){
+                    currentPixel.style.backgroundColor = currentColor;
+                }
+                if(erasePixel){
+                    erasePixel();
+                }
+            }
+
+
+            function erasePixel(currentPixel){
+
+            }
+
+            createBoard(20, 20);
+
+        
+
+
+
 
         </script>
 

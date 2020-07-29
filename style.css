@@ -49,7 +49,11 @@ button{
     background-color: var(--three);
     display: grid;
     grid-template-rows: 5fr 6fr 4fr 2fr;
-    padding: 25px 15px;
+    padding: 0 15px;
+}
+
+#controls > div{
+
 }
 
 
@@ -72,9 +76,8 @@ button{
 
 }
 
-#dimensionsControl >p{
+.helperText{
     width: 100%;
-
     padding-left: 2%;
 }
 
@@ -94,7 +97,75 @@ button{
     width: 45%;
 }
 
-#drawButton{
-
+#createCanvas{
     margin: 20px;
+}
+
+.color{
+    width: 10%;
+    height: 1.5em;
+    background-color: green;
+
+}
+
+
+.colorRow{
+    display: flex;
+    margin-bottom: 0.5%;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+#colorPicker{
+    display:grid;
+    grid-template-rows: 1fr 1fr;
+}
+
+#drawEraseControl{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.drawEraseToggle{
+    width: 45%;
+}
+
+#clearControl{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#clearButton{
+    height: 30%;
+    width: 25%;
+}
+
+#canvas{
+    background-color: orange;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border: solid;
+    border-right: none;
+    border-bottom: none;
+    border-width: 0.5px;
+
+
+}
+
+.pixel{
+    border: solid;
+    border-width: 0.5px;
+    border-top: none;
+    border-left: none;
+    height: 100%;
+    user-select: none; 
 }
