@@ -3,7 +3,10 @@
     <head>
         <title>Julian's Pixel Art Maker</title>
         <link rel="stylesheet" href="https://use.typekit.net/els7cqg.css">
+        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="https://img.icons8.com/material-two-tone/96/000000/edit--v1.png"/>
+        <!--icon taken from https://icons8.com/icons/set/favicon -->
     </head>
     <body>
 
@@ -14,15 +17,15 @@
 
             <div id="controlsContainer">
                 <div id="title">
-                    <span id="titleBox">Pixel Art Maker</span>
+                    <span id="titleBox">Julian's Pixel Art Maker</span>
                 </div>
                 <div id="controls">
                     <div id="dimensionsControl">
                         <p  class="helperText"><strong>Canvas Dimensions</strong></p>
                         <div id="dimensions">
-                            <input type="text" class="inputBox" id="inputWidth">
+                            <input type="text" class="inputBox" id="inputWidth" placeholder="Width">
                             <span> x </span>
-                            <input type="text" class="inputBox" id="inputHeight">
+                            <input type="text" class="inputBox" id="inputHeight" placeholder="Height">
                         </div>
                         <button id="createCanvas">Create Canvas</button>
                     </div>
@@ -50,6 +53,7 @@
                                 <div class="color" data-color="#693333"></div>
                                 <div class="color" data-color="#8689A5"></div>
                             </div>
+                            
                         </div>
                     </div>
                     <div id="drawEraseControl">
@@ -76,11 +80,17 @@
             let currentPixel = null;
             let currentHeight = 10;
             let currentWidth = 10;
+            let lastColor = null;
 
             //fill in color rows
 
             function switchToThis(e){
+                if(lastColor){
+                    lastColor.classList.remove("selectedColor");
+                }
                 currentColor = e.target.getAttribute('data-color');
+                e.target.classList.add("selectedColor");
+                lastColor = e.target;
             }
             let rowOneRef = document.querySelector("#rowOne").children;
             let rowTwoRef = document.querySelector("#rowTwo").children;
@@ -90,17 +100,18 @@
                 rowOneRef[i].addEventListener("mousedown", switchToThis);
                 rowTwoRef[i].style.backgroundColor = rowTwoRef[i].getAttribute('data-color');
                 rowTwoRef[i].addEventListener("mousedown", switchToThis)
-
-
             }
 
 
+
+            //custom color section
             let customColor = document.querySelector("#colorInput");
             customColor.addEventListener("change",switchColorCustom );
 
             function switchColorCustom(e){
                 currentColor = e.target.value;
             }
+            //custom color section
 
 
             //fil in color rows end
