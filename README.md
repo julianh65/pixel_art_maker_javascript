@@ -1,4 +1,4 @@
-A website to make pixel art.
+A website for making pixel art.
 
 Made with javascript.
 
