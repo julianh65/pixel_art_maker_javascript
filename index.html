@@ -18,42 +18,43 @@
                 </div>
                 <div id="controls">
                     <div id="dimensionsControl">
-                        <p  class="helperText"><strong>Dimensions</strong></p>
+                        <p  class="helperText"><strong>Canvas Dimensions</strong></p>
                         <div id="dimensions">
-                            <input type="text" class="inputBox" id="inputHeight">
-                            <span> x </span>
                             <input type="text" class="inputBox" id="inputWidth">
+                            <span> x </span>
+                            <input type="text" class="inputBox" id="inputHeight">
                         </div>
                         <button id="createCanvas">Create Canvas</button>
                     </div>
                     <div id="colorControl">
                         <p class="helperText"><strong>Color</strong></p>
                         <div id="colorPicker">
-                            <div class="colorRow">
-                                <div class="color" id=""></div>
-                                <div class="color" id=""></div>
-                                <div class="color" id=""></div>
-                                <div class="color" id=""></div>
-                                <div class="color" id=""></div>
-                                <div class="color" id=""></div>
-                                <div class="color" id=""></div>
-                                <div class="color" id=""></div>
+                            <input type="color" id="colorInput">
+                            <div class="colorRow" id="rowOne">
+                                <div class="color" data-color="#000000" id="testo"></div>
+                                <div class="color" data-color="#7B7B7B"></div>
+                                <div class="color" data-color="#ED3B3B"></div>
+                                <div class="color" data-color="#FF961C"></div>
+                                <div class="color" data-color="#F2DA21"></div>
+                                <div class="color" data-color="#C6E55F"></div>
+                                <div class="color" data-color="#50E60D"></div>
+                                <div class="color" data-color="#81F2C6"></div>
                             </div>
-                            <div class="colorRow">
-                                <div class="color" id=""></div>
-                                <div class="color" id=""></div>
-                                <div class="color" id=""></div>
-                                <div class="color" id=""></div>
-                                <div class="color" id=""></div>
-                                <div class="color" id=""></div>
-                                <div class="color" id=""></div>
-                                <div class="color" id=""></div>
+                            <div class="colorRow" id="rowTwo">
+                                <div class="color" data-color="#50BCFF"></div>
+                                <div class="color" data-color="#3C5AFF"></div>
+                                <div class="color" data-color="#7C71FF"></div>
+                                <div class="color" data-color="#871FAD"></div>
+                                <div class="color" data-color="#FF4BAC"></div>
+                                <div class="color" data-color="#FFB7EE"></div>
+                                <div class="color" data-color="#693333"></div>
+                                <div class="color" data-color="#8689A5"></div>
                             </div>
                         </div>
                     </div>
                     <div id="drawEraseControl">
-                        <button class="drawEraseToggle" id="eraseToggleButton">Draw</button>
-                        <button class="drawEraseToggle" id="drawToggleButton">Erase</button>
+                        <button class="drawEraseToggle" id="drawToggleButton">Draw</button>
+                        <button class="drawEraseToggle" id="eraseToggleButton">Erase</button>
                     </div>
                     <div id="clearControl">
                         <button id="clearButton">Clear</button>
@@ -69,12 +70,42 @@
         </div>
         <script>
 
-            let currentColor = "#263B2A";
+            let currentColor = "#000000";
             let drawingToggle = true;
             let eraseToggle = false;
             let currentPixel = null;
-            
-            //update with function
+            let currentHeight = 10;
+            let currentWidth = 10;
+
+            //fill in color rows
+
+            function switchToThis(e){
+                currentColor = e.target.getAttribute('data-color');
+            }
+            let rowOneRef = document.querySelector("#rowOne").children;
+            let rowTwoRef = document.querySelector("#rowTwo").children;
+
+            for(i = 0; i < 8; i++){
+                rowOneRef[i].style.backgroundColor = rowOneRef[i].getAttribute('data-color');
+                rowOneRef[i].addEventListener("mousedown", switchToThis);
+                rowTwoRef[i].style.backgroundColor = rowTwoRef[i].getAttribute('data-color');
+                rowTwoRef[i].addEventListener("mousedown", switchToThis)
+
+
+            }
+
+
+            let customColor = document.querySelector("#colorInput");
+            customColor.addEventListener("change",switchColorCustom );
+
+            function switchColorCustom(e){
+                currentColor = e.target.value;
+            }
+
+
+            //fil in color rows end
+
+            //mouse down keep calling draw function area
 
             let canvas = document.querySelector("#canvas");
             var mousedownID = -1;  //Global ID of mouse down interval
@@ -95,15 +126,77 @@
                 action();
             }
             //Assign events
-            document.addEventListener("mousedown", mousedown);
-            document.addEventListener("mouseup", mouseup);
-            //Also clear the interval when user leaves the window with mouse
+            canvas.addEventListener("mousedown", mousedown);
+            canvas.addEventListener("mouseup", mouseup);
 
-            //end of function to detect if mouse is clicked
+            //end of function to detect if mouse down to call draw
         
 
+            function setCurrentPixel(e){
+                currentPixel = e.target;
+
+            }
+
+            function action(){
+                if(drawingToggle){
+                    currentPixel.style.backgroundColor = currentColor;
+                }
+                if(eraseToggle){
+                    currentPixel.style.backgroundColor = "";
+                }
+            }
+
+            //buttons for draw and erase
+            let drawButtonReference = document.querySelector("#drawToggleButton");
+            let eraseButtonReference = document.querySelector("#eraseToggleButton")
+            drawButtonReference.addEventListener("mousedown", drawToggleFunction);
+            eraseButtonReference.addEventListener("mousedown", eraseToggleFunction);
+            function drawToggleFunction(){
+                drawingToggle = true;
+                eraseToggle = false;
+
+                drawButtonReference.classList.add("toggledButton");
+                eraseButtonReference.classList.remove("toggledButton");
+
+            }
+
+            function eraseToggleFunction(){
+                eraseToggle = true;
+                drawingToggle = false;
+
+                eraseButtonReference.classList.add("toggledButton");
+                drawButtonReference.classList.remove("toggledButton");
+
+
+            }
+
+            //end toggle area
+            
+
+            //create canvas area
+
+
+
             function createBoard(height, width) {
+
+                if(isNaN(height) || isNaN(width)){
+                    console.log(typeof height);
+                    alert("Please enter numbers.");
+                    return;
+                }
+
+                if(height <= 0 || height >=41 || width <= 0 || width >= 41){
+                    alert("Please only enter numbers from 1-40");
+                    return;
+                }
+
+                currentHeight = height;
+                currentWidth = width;
+
+
+
                 const parentDiv = document.querySelector('#canvas');
+                parentDiv.innerHTML = '';
                 const heightPercent = 100/height + "%";
                 const widthPercent = 100/width + "%";
 
@@ -118,6 +211,7 @@
                         let pixel = document.createElement("div");
                         pixel.classList.add("pixel");
                         pixel.style.width = widthPercent;
+                        pixel.style.transitionDuration = "0.12s";
                         currentRow.appendChild(pixel);
                         pixel.addEventListener("mouseover", setCurrentPixel);
                     }
@@ -128,37 +222,32 @@
             }
 
 
+            let widthInputReference = document.querySelector("#inputWidth");
+            let heightInputRefrence = document.querySelector("#inputHeight");
+            let createCanvasButtonReference = document.querySelector("#createCanvas");
+
+            createCanvasButtonReference.addEventListener("mousedown", function(){createBoard(widthInputReference.value, heightInputRefrence.value)});
+
+
+            //end create canvas area
+
+
+            let clearButtonReference = document.querySelector("#clearButton");
+            clearButtonReference.addEventListener("mousedown", clearBoard);
+
 
             function clearBoard(){
+                createBoard(currentWidth, currentHeight);
 
             }
 
-            function setCurrentPixel(e){
-                currentPixel = e.target;
-
-            }
-
-            function action(){
-                if(drawingToggle){
-                    currentPixel.style.backgroundColor = currentColor;
-                }
-                if(erasePixel){
-                    erasePixel();
-                }
-            }
-
-
-            function erasePixel(currentPixel){
-
-            }
-
-            createBoard(20, 20);
-
-        
+            //color selector area
 
 
 
 
+            //default createboard
+            createBoard(10,10);
         </script>
 
     </body>
